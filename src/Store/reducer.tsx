@@ -15,7 +15,6 @@ const rootReducer = (state: ISummoner = initalState, action: any) => {
   switch (action.type) {
     // Udpate sumName from the action payload filled from the user input value
     case summonerActions.GET_SUM_NAME:
-      console.log('CATCH');
       return { ...state, sumName: action.payload.sumName, sumRegion: action.payload.sumRegion };
 
     // No changes to the store since this action is only for the API call?

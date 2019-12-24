@@ -1,21 +1,19 @@
-import { createAction } from '@reduxjs/toolkit';
+// import { createAction } from '@reduxjs/toolkit';
 
 // TODO: Check the Redux ToolKit way for the payload
 
 // Redux Toolkit way to create the actions
-// export const GET_SUM_NAME = createAction('GET_SUM_NAME');
-// export const GET_SUM_INFO = createAction('GET_SUM_INFO');
-// export const UPDATE_SUM_INFO = createAction('UPDATE_SUM_INFO');
+// export const getSumNameAction = createAction('GET_SUM_NAME');
+// export const getSumInfoAction = createAction('GET_SUM_INFO');
+// export const updateSumInfoAction = createAction('UPDATE_SUM_INFO');
 
 // Classic Redux way to create the actions
-// TODO: The actions creators are INCORRECT thus exporting everything
-
 // Action used to get the summoner name from the input field
 export const GET_SUM_NAME = 'GET_SUM_NAME';
-export const getSumNameAction = () => {
+export const getSumNameAction = (payload: any) => {
   return {
     type: GET_SUM_NAME,
-    payload: String
+    payload
   };
 };
 
