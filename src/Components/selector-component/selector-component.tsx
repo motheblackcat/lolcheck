@@ -2,13 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { store } from '../..';
 import ISummoner from '../../Interfaces/summoner-interface';
-import { getSumNameAction } from '../../Store/actions';
+import { GET_SUM_NAME } from '../../Store/actions';
 
 class SelectorComponent extends React.Component {
   checkSummoner(): void {
     // Get input value
-    // Pass it to the store
-    store.dispatch(getSumNameAction());
+    store.dispatch({ type: GET_SUM_NAME, payload: { sumName: 'Mo', sumRegion: 'EUW' } });
     console.log(store.getState());
   }
 
@@ -35,5 +34,7 @@ const mapStateToProps = (state: ISummoner) => {
     sumRegion: state.sumRegion
   };
 };
+
+// TODO: const mapDispatchToProps
 
 export default connect(mapStateToProps)(SelectorComponent);
