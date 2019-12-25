@@ -10,7 +10,6 @@ import rootReducer from './Store/reducer';
 // Redux Toolkit way to create the store
 // export const store = configureStore({reducer: rootReducer});
 
-// Classic Redux way to create the store (no redux dev tool auto work :/)
 export const store = createStore(rootReducer);
 
 ReactDOM.render(
