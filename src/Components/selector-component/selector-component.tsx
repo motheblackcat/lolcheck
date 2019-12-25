@@ -5,6 +5,7 @@ import { store } from '../..';
 import { getSumNameAction, getSumRegionAction, getSumInfoAction } from '../../Store/actions';
 
 class SelectorComponent extends React.Component {
+  // TODO: Use state to handle ui logic (no need to dispatch at every keystroke)
   getSummonerName(e: ChangeEvent): void {
     const target: HTMLInputElement = e.target as HTMLInputElement;
     store.dispatch(getSumNameAction(target.value));
@@ -17,7 +18,6 @@ class SelectorComponent extends React.Component {
 
   getSummonerInfo(): void {
     if (store.getState().sumName.match(/\S+/)) {
-      console.log(store.getState());
       store.dispatch(getSumInfoAction());
     }
   }

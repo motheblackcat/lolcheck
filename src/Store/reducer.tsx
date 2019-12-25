@@ -8,7 +8,6 @@ const initalState: ISummoner = {
   sumRegion: 'euw1'
 };
 
-// The Redux Toolkit createReducer() could be used here
 const rootReducer = (state: ISummoner = initalState, action: any) => {
   switch (action.type) {
     case summonerActions.GET_SUM_NAME:

@@ -1,8 +1,3 @@
-// Redux Toolkit way to create the actions, check how to add a payload
-// export const getSumNameAction = createAction('GET_SUM_NAME');
-// export const getSumInfoAction = createAction('GET_SUM_INFO');
-// export const updateSumInfoAction = createAction('UPDATE_SUM_INFO');
-
 export const GET_SUM_NAME = 'GET_SUM_NAME';
 export const getSumNameAction = (payload: string) => {
   return {
