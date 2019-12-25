@@ -1,4 +1,10 @@
+import { Dispatch } from 'redux';
+
 export const GET_SUM_NAME = 'GET_SUM_NAME';
+export const GET_SUM_REGION = 'GET_SUM_REGION';
+export const GET_SUM_INFO = 'GET_SUM_INFO';
+export const UPDATE_SUM_INFO = 'UPDATE_SUM_INFO';
+
 export const getSumNameAction = (payload: string) => {
   return {
     type: GET_SUM_NAME,
@@ -6,7 +12,6 @@ export const getSumNameAction = (payload: string) => {
   };
 };
 
-export const GET_SUM_REGION = 'GET_SUM_REGION';
 export const getSumRegionAction = (payload: string) => {
   return {
     type: GET_SUM_REGION,
@@ -15,21 +20,21 @@ export const getSumRegionAction = (payload: string) => {
 };
 
 // Action used to trigger the Riot API call
-export const GET_SUM_INFO = 'GET_SUM_INFO';
 export const getSumInfoAction = () => {
-  return {
-    type: GET_SUM_INFO
+  return (dispatch: Dispatch, getState: Function) => {
+    console.log('[API] Call with', getState());
+    // Make api call to get res
+    const res = { sumLevel: '120', sumIcon: 'Thresh' };
+    setTimeout(() => {
+      dispatch(updateSumInfoAction(res));
+    }, 2000);
   };
 };
 
-// Action used to update the summoner's info after receiving data from the API
-export const UPDATE_SUM_INFO = 'UPDATE_SUM_INFO';
-export const updateSumInfoAction = () => {
+// Action used to update the summoner's info after receiving them from the Riot API (payload type should be the API res type)
+export const updateSumInfoAction = (payload: any) => {
   return {
     type: UPDATE_SUM_INFO,
-    payload: {
-      sumLevel: Number,
-      sumIcon: String
-    }
+    payload
   };
 };

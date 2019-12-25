@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import { createStore, Store, Action, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
+import { createStore, Action, applyMiddleware, Middleware, MiddlewareAPI } from 'redux';
+import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { Provider } from 'react-redux';
 import rootReducer from './Store/reducer';
 
-const logger: any = (store: Store) => {
+const logger: Middleware = (store: MiddlewareAPI) => {
   return (next: Function) => {
     return (action: Action) => {
       console.log('[Middleware] dispatching', action);
@@ -19,7 +20,7 @@ const logger: any = (store: Store) => {
   };
 };
 
-export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger)));
+export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger, thunk)));
 
 ReactDOM.render(
   <Provider store={store}>
