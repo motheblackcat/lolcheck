@@ -21,7 +21,7 @@ class MainComponent extends React.Component<State> {
       <div className={classes.main} style={backgroundImage}>
         {this.props.sumIcon ? <img src={this.props.sumIcon} alt="Summoner Icon" /> : null}
         <label>{this.props.sumName}</label>
-        <label>{this.props.sumLevel ? `Level ${this.props.sumLevel}` : ''}</label>
+        {this.props.sumLevel ? <label>Level {this.props.sumLevel}</label> : null}
       </div>
     ) : null;
   }

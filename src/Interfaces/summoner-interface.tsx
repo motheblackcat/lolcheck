@@ -7,6 +7,7 @@ export interface ISummoner {
     sumId: string;
     splash: string;
   };
+  champions: [];
   isLoading: boolean;
 }
 

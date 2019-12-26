@@ -9,6 +9,7 @@ export const GET_SUM_INFO = 'GET_SUM_INFO';
 export const LOADING_SUM_INFO = 'LOADING_SUM_INFO';
 export const SUCCESS_SUM_INFO = 'SUCCESS_SUM_INFO';
 export const ERROR_SUM_INFO = 'ERROR_SUM_INFO';
+export const SET_CHAMPION_DATA = 'SET_CHAMPION_DATA';
 
 export const getSumNameAction = (payload: string) => {
   return {
@@ -24,16 +25,31 @@ export const getSumRegionAction = (payload: string) => {
   };
 };
 
+export const getChampionDataAction = () => {
+  return (dispatch: Dispatch) => {
+    axios.get('http://ddragon.leagueoflegends.com/cdn/9.24.2/data/en_US/champion.json').then((res: AxiosResponse) => {
+      // TODO: Make an [id]: champName list
+      const championData = Object.values(res.data.data);
+      dispatch(setChampionDataAction(championData));
+    });
+  };
+};
+
+export const setChampionDataAction = (payload: any) => {
+  return {
+    type: SET_CHAMPION_DATA,
+    payload
+  };
+};
+
 // Action used to trigger the Riot API call
 export const getSumInfoAction = () => {
   return (dispatch: Dispatch, getState: Function) => {
     dispatch(loadingSumInfoAction());
     const server = getState().summoner.sumRegion;
     const sumName = getState().summoner.sumName;
-    const url = `https://${server}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${sumName}?api_key=${key}`;
-    // TODO: Oh no! Callback hell!!!
     // Call to get summoner info
-    axios.get(url).then(
+    axios.get(`https://${server}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${sumName}?api_key=${key}`).then(
       (res: AxiosResponse) => {
         const sumInfo = {
           sumName: res.data.name,
@@ -42,22 +58,24 @@ export const getSumInfoAction = () => {
           sumId: res.data.id,
           splash: ''
         };
-        // Call to get summoner masteries
+        // Call to get summoner masteries & get champion splash
         axios
           .get(`https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${sumInfo.sumId}?api_key=${key}`)
           .then((res: AxiosResponse) => {
-            const champId = res.data[0].championId.toString();
-            // Call to get all champions data (pull this out with correct typing)
-            axios.get('http://ddragon.leagueoflegends.com/cdn/9.24.2/data/en_US/champion.json').then((res: AxiosResponse) => {
-              // TODO: Refactor the way to get the champion name / splash
-              const champName: any = Object.values(res.data.data).filter((champion: any) => champion.key === champId);
-              const splash: string = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName[0].id}_0.jpg`;
+            // TODO: Fix the way champId & champObject are defined (id: name list)
+            console.log(res.data);
+            if (res.data.length > 0) {
+              const champId: string = res.data[0].championId.toString();
+              const champObject: any = getState().champions.filter((champion: any) => champion.key === champId)[0];
+              const splash: string = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champObject.name}_0.jpg`;
               sumInfo.splash = splash;
               dispatch(successSumInfoAction(sumInfo));
-            });
+            } else {
+              dispatch(successSumInfoAction(sumInfo));
+            }
           });
       },
-      // TODO: Improve error handling
+      // TODO: Improve error handling with different messages according to code
       (err: AxiosError) => {
         console.error('Error on api call', err);
         dispatch(errorSumInfoAction('Summoner not found.'));

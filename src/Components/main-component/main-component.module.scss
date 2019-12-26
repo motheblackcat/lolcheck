@@ -15,19 +15,15 @@
   }
 
   img {
-    width: 150px;
+    width: 200px;
     border: 2px solid white;
   }
 
   label {
-    font-size: 1.5em;
+    font-size: 2em;
     background-color: #282c34;
     padding: 0 10px;
     border-radius: 20px;
     padding: 5px 15px;
-
-    &:first-of-type {
-      font-size: 2em;
-    }
   }
 }

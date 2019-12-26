@@ -1,17 +1,26 @@
 import React from 'react';
-import './App.scss';
+import { store } from '.';
+import { getChampionDataAction } from './Store/actions';
 
 import SelectorComponent from './Components/selector-component/selector-component';
 import MainComponent from './Components/main-component/main-component';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <h1>LoL Check</h1>
-      <SelectorComponent />
-      <MainComponent />
-    </div>
-  );
-};
+import './App.scss';
+
+class App extends React.Component {
+  componentDidMount() {
+    store.dispatch(getChampionDataAction());
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>LoL Check</h1>
+        <SelectorComponent />
+        <MainComponent />
+      </div>
+    );
+  }
+}
 
 export default App;
