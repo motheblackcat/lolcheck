@@ -1,4 +1,4 @@
-interface ISummoner {
+export interface ISummoner {
   summoner: {
     sumName: string;
     sumIcon: string;
@@ -8,4 +8,12 @@ interface ISummoner {
   isLoading: boolean;
 }
 
-export default ISummoner;
+export interface IAPISummoner {
+  accountId: string;
+  id: string;
+  name: string;
+  profileIconId: number;
+  puuid: string;
+  revisionDate: number;
+  summonerLevel: number;
+}

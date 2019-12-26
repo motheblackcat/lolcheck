@@ -1,5 +1,5 @@
 import * as summonerActions from './actions';
-import ISummoner from '../Interfaces/summoner-interface';
+import { ISummoner } from '../Interfaces/summoner-interface';
 
 const initalState: ISummoner = {
   summoner: {
