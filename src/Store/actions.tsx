@@ -23,6 +23,7 @@ export const getSumRegionAction = (payload: string) => {
 };
 
 // Action used to trigger the Riot API call (axios can be considered instead of fetch())
+// TODO: Proper error handling
 export const getSumInfoAction = () => {
   return (dispatch: Dispatch, getState: Function) => {
     dispatch(loadSumInfoAction());
@@ -35,9 +36,13 @@ export const getSumInfoAction = () => {
       .then((data: IAPISummoner) => {
         const sumInfo = {
           sumLevel: data.summonerLevel,
-          sumIcon: `http://ddragon.leagueoflegends.com/cdn/9.24.2/img/profileicon/685.png${data.profileIconId}`
+          sumIcon: `http://ddragon.leagueoflegends.com/cdn/9.24.2/img/profileicon/${data.profileIconId}.png`
         };
+        dispatch(getSumNameAction(data.name));
         dispatch(updateSumInfoAction(sumInfo));
+      })
+      .catch(err => {
+        console.log('Oh no error!', err);
       });
   };
 };

@@ -12,9 +12,9 @@ import rootReducer from './Store/reducer';
 const logger: Middleware = (store: MiddlewareAPI) => {
   return (next: Function) => {
     return (action: Action) => {
-      console.log('[Middleware] dispatching', action);
+      // console.log('[Middleware] dispatching', action);
       const result = next(action);
-      console.log('[Middleware] next state', store.getState());
+      // console.log('[Middleware] next state', store.getState());
       return result;
     };
   };
