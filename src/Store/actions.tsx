@@ -1,12 +1,14 @@
 import { Dispatch } from 'redux';
+import axios, { AxiosResponse, AxiosError } from 'axios';
+
 import { key } from '../tempdevconf';
-import { IAPISummoner } from '../Interfaces/summoner-interface';
 
 export const GET_SUM_NAME = 'GET_SUM_NAME';
 export const GET_SUM_REGION = 'GET_SUM_REGION';
 export const GET_SUM_INFO = 'GET_SUM_INFO';
-export const LOAD_SUM_INFO = 'LOAD_SUM_INFO';
-export const UPDATE_SUM_INFO = 'UPDATE_SUM_INFO';
+export const LOADING_SUM_INFO = 'LOADING_SUM_INFO';
+export const SUCCESS_SUM_INFO = 'SUCCESS_SUM_INFO';
+export const ERROR_SUM_INFO = 'ERROR_SUM_INFO';
 
 export const getSumNameAction = (payload: string) => {
   return {
@@ -22,42 +24,49 @@ export const getSumRegionAction = (payload: string) => {
   };
 };
 
-// Action used to trigger the Riot API call (axios can be considered instead of fetch())
-// TODO: Proper error handling
+// Action used to trigger the Riot API call
 export const getSumInfoAction = () => {
   return (dispatch: Dispatch, getState: Function) => {
-    dispatch(loadSumInfoAction());
+    dispatch(loadingSumInfoAction());
     const server = getState().summoner.sumRegion;
     const sumName = getState().summoner.sumName;
     const url = `https://${server}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${sumName}?api_key=${key}`;
-    window
-      .fetch(url)
-      .then((res: Response) => res.json())
-      .then((data: IAPISummoner) => {
+    axios.get(url).then(
+      (res: AxiosResponse) => {
         const sumInfo = {
-          sumLevel: data.summonerLevel,
-          sumIcon: `http://ddragon.leagueoflegends.com/cdn/9.24.2/img/profileicon/${data.profileIconId}.png`
+          sumName: res.data.name,
+          sumLevel: res.data.summonerLevel,
+          sumIcon: `http://ddragon.leagueoflegends.com/cdn/9.24.2/img/profileicon/${res.data.profileIconId}.png`
         };
-        dispatch(getSumNameAction(data.name));
-        dispatch(updateSumInfoAction(sumInfo));
-      })
-      .catch(err => {
-        console.log('Oh no error!', err);
-      });
+        dispatch(successSumInfoAction(sumInfo));
+      },
+      // TODO: Improve error handling
+      (err: AxiosError) => {
+        console.error('Error on api call', err);
+        dispatch(errorSumInfoAction('Summoner not found.'));
+      }
+    );
   };
 };
 
 // Action used for the loader
-export const loadSumInfoAction = () => {
+export const loadingSumInfoAction = () => {
   return {
-    type: LOAD_SUM_INFO
+    type: LOADING_SUM_INFO
   };
 };
 
-// Action used to update the summoner's info after receiving them from the Riot API (payload type should be the API res type)
-export const updateSumInfoAction = (payload: any) => {
+// Action used to handle success / error response from the Riot API call
+export const successSumInfoAction = (payload: any) => {
   return {
-    type: UPDATE_SUM_INFO,
+    type: SUCCESS_SUM_INFO,
+    payload
+  };
+};
+
+export const errorSumInfoAction = (payload: any) => {
+  return {
+    type: ERROR_SUM_INFO,
     payload
   };
 };

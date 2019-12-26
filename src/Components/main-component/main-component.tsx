@@ -17,8 +17,8 @@ class MainComponent extends React.Component<State> {
     ) : this.props.sumName.match(/\S+/) ? (
       <div>
         <h1>{this.props.sumName}</h1>
-        <h1>Level: {this.props.sumLevel}</h1>
-        <img src={this.props.sumIcon} alt="Summoner Icon" />
+        <h1>{this.props.sumLevel ? `Level: ${this.props.sumLevel}` : ''}</h1>
+        {this.props.sumIcon ? <img src={this.props.sumIcon} alt="Summoner Icon" /> : null}
       </div>
     ) : null;
   }

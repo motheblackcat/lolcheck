@@ -19,14 +19,21 @@ const rootReducer = (state: ISummoner = initalState, action: any) => {
     case summonerActions.GET_SUM_REGION:
       return { ...state, summoner: { ...state.summoner, sumRegion: action.payload } };
 
-    case summonerActions.LOAD_SUM_INFO:
+    case summonerActions.LOADING_SUM_INFO:
       return { ...state, isLoading: true };
 
-    case summonerActions.UPDATE_SUM_INFO:
+    case summonerActions.SUCCESS_SUM_INFO:
       return {
         ...state,
         isLoading: false,
-        summoner: { ...state.summoner, sumLevel: action.payload.sumLevel, sumIcon: action.payload.sumIcon }
+        summoner: { ...state.summoner, sumName: action.payload.sumName, sumLevel: action.payload.sumLevel, sumIcon: action.payload.sumIcon }
+      };
+
+    case summonerActions.ERROR_SUM_INFO:
+      return {
+        ...state,
+        isLoading: false,
+        summoner: { ...state.summoner, sumName: action.payload, sumLevel: '', sumIcon: '' }
       };
 
     default:
