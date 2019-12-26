@@ -1,8 +1,11 @@
 interface ISummoner {
-  sumName: string;
-  sumIcon: string;
-  sumLevel: string;
-  sumRegion: string;
+  summoner: {
+    sumName: string;
+    sumIcon: string;
+    sumLevel: string;
+    sumRegion: string;
+  };
+  isLoading: boolean;
 }
 
 export default ISummoner;

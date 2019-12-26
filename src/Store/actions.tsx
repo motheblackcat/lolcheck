@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 export const GET_SUM_NAME = 'GET_SUM_NAME';
 export const GET_SUM_REGION = 'GET_SUM_REGION';
 export const GET_SUM_INFO = 'GET_SUM_INFO';
+export const LOAD_SUM_INFO = 'LOAD_SUM_INFO';
 export const UPDATE_SUM_INFO = 'UPDATE_SUM_INFO';
 
 export const getSumNameAction = (payload: string) => {
@@ -22,12 +23,18 @@ export const getSumRegionAction = (payload: string) => {
 // Action used to trigger the Riot API call
 export const getSumInfoAction = () => {
   return (dispatch: Dispatch, getState: Function) => {
-    console.log('[API] Call with', getState());
+    dispatch(loadSumInfoAction());
     // Make api call to get res
     const res = { sumLevel: '120', sumIcon: 'Thresh' };
     setTimeout(() => {
       dispatch(updateSumInfoAction(res));
     }, 2000);
+  };
+};
+
+export const loadSumInfoAction = () => {
+  return {
+    type: LOAD_SUM_INFO
   };
 };
 
