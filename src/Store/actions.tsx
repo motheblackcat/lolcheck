@@ -22,7 +22,7 @@ export const getSumRegionAction = (payload: string) => {
   };
 };
 
-// Action used to trigger the Riot API call
+// Action used to trigger the Riot API call (axios can be considered instead of fetch())
 export const getSumInfoAction = () => {
   return (dispatch: Dispatch, getState: Function) => {
     dispatch(loadSumInfoAction());

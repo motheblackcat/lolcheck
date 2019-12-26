@@ -6,7 +6,7 @@ import SelectorComponent from './Components/selector-component/selector-componen
 const App: React.FC = () => {
   return (
     <div className="App">
-      <h1>LoL Counter</h1>
+      <h1>LoL Check</h1>
       <SelectorComponent />
     </div>
   );

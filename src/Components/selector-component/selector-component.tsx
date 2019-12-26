@@ -1,12 +1,16 @@
 import React, { ChangeEvent } from 'react';
+import { connect } from 'react-redux';
 import { store } from '../..';
-
 import { getSumNameAction, getSumRegionAction, getSumInfoAction } from '../../Store/actions';
+import { ISummoner } from '../../Interfaces/summoner-interface';
 
-class SelectorComponent extends React.Component {
+interface State {
+  isLoading: boolean;
+}
+
+class SelectorComponent extends React.Component<State> {
   state = {
-    sumName: '',
-    isLoading: false
+    sumName: ''
   };
 
   getSummonerNameHandler(e: ChangeEvent): void {
@@ -38,12 +42,18 @@ class SelectorComponent extends React.Component {
           <option value="na1">NA</option>
         </select>
 
-        <button disabled={this.state.isLoading} onClick={() => this.getSummonerInfoHandler()}>
-          Check
+        <button disabled={this.props.isLoading} onClick={() => this.getSummonerInfoHandler()}>
+          {this.props.isLoading ? 'Loading...' : 'Check'}
         </button>
       </div>
     );
   }
 }
 
-export default SelectorComponent;
+const mapStateToProps = (state: ISummoner) => {
+  return {
+    isLoading: state.isLoading
+  };
+};
+
+export default connect(mapStateToProps)(SelectorComponent);
