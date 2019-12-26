@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ISummoner } from '../../Interfaces/summoner-interface';
+import { IState } from '../../Interfaces/summoner-interface';
 import classes from './main-component.module.scss';
 
 interface State {
   sumName: string;
   sumIcon: string;
-  sumLevel: string;
+  sumLevel: number;
   sumRegion: string;
   splash: string;
   isLoading: boolean;
@@ -27,7 +27,7 @@ class MainComponent extends React.Component<State> {
   }
 }
 
-const mapStateToProps = (state: ISummoner) => {
+const mapStateToProps = (state: IState) => {
   return {
     sumName: state.summoner.sumName,
     sumIcon: state.summoner.sumIcon,

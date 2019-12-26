@@ -2,6 +2,7 @@ import { Dispatch } from 'redux';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
 import { key } from '../tempdevconf';
+import { ISummoner, SummonerDTO } from '../Interfaces/summoner-interface';
 
 export const GET_SUM_NAME = 'GET_SUM_NAME';
 export const GET_SUM_REGION = 'GET_SUM_REGION';
@@ -26,10 +27,9 @@ export const getSumRegionAction = (payload: string) => {
 };
 
 export const getChampionDataAction = () => {
-  return (dispatch: Dispatch) => {
+  return (dispatch: Dispatch<any>) => {
     axios.get('http://ddragon.leagueoflegends.com/cdn/9.24.2/data/en_US/champion.json').then((res: AxiosResponse) => {
-      // TODO: Make an [id]: champName list
-      const championData = Object.values(res.data.data);
+      const championData: Array<Object> = Object.values(res.data.data);
       dispatch(setChampionDataAction(championData));
     });
   };
@@ -42,45 +42,51 @@ export const setChampionDataAction = (payload: any) => {
   };
 };
 
+// TODO: Improve error handling with different messages according to code
 // Action used to trigger the Riot API call
 export const getSumInfoAction = () => {
-  return (dispatch: Dispatch, getState: Function) => {
+  return (dispatch: Dispatch<any>, getState: Function) => {
     dispatch(loadingSumInfoAction());
-    const server = getState().summoner.sumRegion;
-    const sumName = getState().summoner.sumName;
-    // Call to get summoner info
-    axios.get(`https://${server}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${sumName}?api_key=${key}`).then(
+    const sumName: string = getState().summoner.sumName;
+    const sumRegion: string = getState().summoner.sumRegion;
+    axios.get(`https://${sumRegion}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${sumName}?api_key=${key}`).then(
       (res: AxiosResponse) => {
-        const sumInfo = {
-          sumName: res.data.name,
-          sumLevel: res.data.summonerLevel,
+        const summonerDTO: SummonerDTO = res.data;
+        const sumInfo: ISummoner = {
+          sumName: summonerDTO.name,
+          sumLevel: summonerDTO.summonerLevel,
           sumIcon: `http://ddragon.leagueoflegends.com/cdn/9.24.2/img/profileicon/${res.data.profileIconId}.png`,
-          sumId: res.data.id,
+          sumId: summonerDTO.id,
+          sumRegion: sumRegion,
           splash: ''
         };
-        // Call to get summoner masteries & get champion splash
-        axios
-          .get(`https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${sumInfo.sumId}?api_key=${key}`)
-          .then((res: AxiosResponse) => {
-            // TODO: Fix the way champId & champObject are defined (id: name list)
-            console.log(res.data);
-            if (res.data.length > 0) {
-              const champId: string = res.data[0].championId.toString();
-              const champObject: any = getState().champions.filter((champion: any) => champion.key === champId)[0];
-              const splash: string = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champObject.name}_0.jpg`;
-              sumInfo.splash = splash;
-              dispatch(successSumInfoAction(sumInfo));
-            } else {
-              dispatch(successSumInfoAction(sumInfo));
-            }
-          });
+        dispatch(getSummonerMasteryAction(sumInfo));
       },
-      // TODO: Improve error handling with different messages according to code
       (err: AxiosError) => {
         console.error('Error on api call', err);
         dispatch(errorSumInfoAction('Summoner not found.'));
       }
     );
+  };
+};
+
+// TODO: Fix the way champId / champObject are assigned + add type to champObject
+// Action used to get summoner masteries & best champion splash
+export const getSummonerMasteryAction = (sumInfo: ISummoner) => {
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    axios
+      .get(`https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${sumInfo.sumId}?api_key=${key}`)
+      .then((res: AxiosResponse) => {
+        if (res.data.length > 0) {
+          const champId: string = res.data[0].championId.toString();
+          const champObject: any = getState().champions.filter((champion: any) => champion.key === champId)[0];
+          const splash: string = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champObject.name}_0.jpg`;
+          sumInfo.splash = splash;
+          dispatch(successSumInfoAction(sumInfo));
+        } else {
+          dispatch(successSumInfoAction(sumInfo));
+        }
+      });
   };
 };
 
@@ -91,7 +97,7 @@ export const loadingSumInfoAction = () => {
   };
 };
 
-// Action used to handle success / error response from the Riot API call
+// Action used to handle success / error from getting Summoner info & mastery
 export const successSumInfoAction = (payload: any) => {
   return {
     type: SUCCESS_SUM_INFO,

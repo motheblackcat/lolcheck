@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { store } from '../..';
 import { getSumNameAction, getSumRegionAction, getSumInfoAction } from '../../Store/actions';
-import { ISummoner } from '../../Interfaces/summoner-interface';
+import { IState } from '../../Interfaces/summoner-interface';
 
 import classes from './selector-component.module.scss';
 
@@ -53,7 +53,7 @@ class SelectorComponent extends React.Component<State> {
   }
 }
 
-const mapStateToProps = (state: ISummoner) => {
+const mapStateToProps = (state: IState) => {
   return {
     isLoading: state.isLoading
   };

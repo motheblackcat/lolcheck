@@ -1,11 +1,11 @@
 import * as summonerActions from './actions';
-import { ISummoner } from '../Interfaces/summoner-interface';
+import { IState } from '../Interfaces/summoner-interface';
 
-const initalState: ISummoner = {
+const initalState: IState = {
   summoner: {
     sumName: '',
     sumIcon: '',
-    sumLevel: '',
+    sumLevel: 0,
     sumRegion: 'euw1',
     sumId: '',
     splash: ''
@@ -14,7 +14,7 @@ const initalState: ISummoner = {
   isLoading: false
 };
 
-const rootReducer = (state: ISummoner = initalState, action: any) => {
+const rootReducer = (state: IState = initalState, action: any) => {
   switch (action.type) {
     case summonerActions.GET_SUM_NAME:
       return { ...state, summoner: { ...state.summoner, sumName: action.payload } };
