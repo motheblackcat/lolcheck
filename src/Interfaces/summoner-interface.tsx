@@ -4,6 +4,8 @@ export interface ISummoner {
     sumIcon: string;
     sumLevel: string;
     sumRegion: string;
+    sumId: string;
+    splash: string;
   };
   isLoading: boolean;
 }

@@ -31,14 +31,31 @@ export const getSumInfoAction = () => {
     const server = getState().summoner.sumRegion;
     const sumName = getState().summoner.sumName;
     const url = `https://${server}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${sumName}?api_key=${key}`;
+    // TODO: Oh no! Callback hell!!!
+    // Call to get summoner info
     axios.get(url).then(
       (res: AxiosResponse) => {
         const sumInfo = {
           sumName: res.data.name,
           sumLevel: res.data.summonerLevel,
-          sumIcon: `http://ddragon.leagueoflegends.com/cdn/9.24.2/img/profileicon/${res.data.profileIconId}.png`
+          sumIcon: `http://ddragon.leagueoflegends.com/cdn/9.24.2/img/profileicon/${res.data.profileIconId}.png`,
+          sumId: res.data.id,
+          splash: ''
         };
-        dispatch(successSumInfoAction(sumInfo));
+        // Call to get summoner masteries
+        axios
+          .get(`https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${sumInfo.sumId}?api_key=${key}`)
+          .then((res: AxiosResponse) => {
+            const champId = res.data[0].championId.toString();
+            // Call to get all champions data (pull this out with correct typing)
+            axios.get('http://ddragon.leagueoflegends.com/cdn/9.24.2/data/en_US/champion.json').then((res: AxiosResponse) => {
+              // TODO: Refactor the way to get the champion name / splash
+              const champName: any = Object.values(res.data.data).filter((champion: any) => champion.key === champId);
+              const splash: string = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName[0].id}_0.jpg`;
+              sumInfo.splash = splash;
+              dispatch(successSumInfoAction(sumInfo));
+            });
+          });
       },
       // TODO: Improve error handling
       (err: AxiosError) => {

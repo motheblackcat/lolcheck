@@ -6,7 +6,9 @@ const initalState: ISummoner = {
     sumName: '',
     sumIcon: '',
     sumLevel: '',
-    sumRegion: 'euw1'
+    sumRegion: 'euw1',
+    sumId: '',
+    splash: ''
   },
   isLoading: false
 };
@@ -23,10 +25,19 @@ const rootReducer = (state: ISummoner = initalState, action: any) => {
       return { ...state, isLoading: true };
 
     case summonerActions.SUCCESS_SUM_INFO:
+      console.log('splash', action.payload.splash);
+
       return {
         ...state,
         isLoading: false,
-        summoner: { ...state.summoner, sumName: action.payload.sumName, sumLevel: action.payload.sumLevel, sumIcon: action.payload.sumIcon }
+        summoner: {
+          ...state.summoner,
+          sumName: action.payload.sumName,
+          sumLevel: action.payload.sumLevel,
+          sumIcon: action.payload.sumIcon,
+          sumId: action.payload.sumId,
+          splash: action.payload.splash
+        }
       };
 
     case summonerActions.ERROR_SUM_INFO:

@@ -1,8 +1,11 @@
 import React, { ChangeEvent } from 'react';
 import { connect } from 'react-redux';
+
 import { store } from '../..';
 import { getSumNameAction, getSumRegionAction, getSumInfoAction } from '../../Store/actions';
 import { ISummoner } from '../../Interfaces/summoner-interface';
+
+import classes from './selector-component.module.scss';
 
 interface State {
   isLoading: boolean;
@@ -32,7 +35,7 @@ class SelectorComponent extends React.Component<State> {
 
   render() {
     return (
-      <div>
+      <div className={classes.selector}>
         <label htmlFor="sumname">Summoner Name:</label>
         <input type="text" name="sumname" id="sumname" onChange={e => this.getSummonerNameHandler(e)} />
 

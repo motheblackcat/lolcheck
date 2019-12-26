@@ -1,0 +1,36 @@
+.selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #121418;
+  padding: 20px 50px;
+
+  label,
+  input {
+    font-size: 1.5em;
+  }
+
+  input,
+  button,
+  select {
+    background-color: #282c34;
+    border: 1px solid white;
+    color: white;
+    height: 30px;
+  }
+
+  input {
+    width: 350px;
+    padding-left: 10px;
+  }
+
+  button {
+    text-transform: uppercase;
+    font-weight: bold;
+    width: 150px;
+  }
+
+  select {
+    width: 100px;
+  }
+}
