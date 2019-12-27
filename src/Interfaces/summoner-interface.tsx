@@ -1,17 +1,18 @@
 // TODO: Type champions correctly
 export interface IState {
-  summoner: ISummoner;
+  summoner: Summoner;
   champions: Array<Object>;
   isLoading: boolean;
 }
 
-export interface ISummoner {
+export interface Summoner {
   sumName: string;
   sumIcon: string;
   sumLevel: number;
   sumRegion: string;
   sumId: string;
-  splash: string;
+  sumSplash: string;
+  sumLeague: Array<League>;
 }
 
 export interface SummonerDTO {
@@ -22,6 +23,14 @@ export interface SummonerDTO {
   puuid: string;
   revisionDate: number;
   summonerLevel: number;
+}
+
+export interface League {
+  queueType: string;
+  wins: number;
+  losses: number;
+  tier: string;
+  rank: string;
 }
 
 export interface LeagueEntryDTO {

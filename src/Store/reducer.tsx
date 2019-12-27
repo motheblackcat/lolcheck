@@ -8,7 +8,8 @@ const initalState: IState = {
     sumLevel: 0,
     sumRegion: 'euw1',
     sumId: '',
-    splash: ''
+    sumSplash: '',
+    sumLeague: []
   },
   champions: [],
   isLoading: false
@@ -35,7 +36,8 @@ const rootReducer = (state: IState = initalState, action: any) => {
           sumLevel: action.payload.sumLevel,
           sumIcon: action.payload.sumIcon,
           sumId: action.payload.sumId,
-          splash: action.payload.splash
+          sumSplash: action.payload.sumSplash,
+          sumLeague: action.payload.sumLeague
         }
       };
 
@@ -43,7 +45,7 @@ const rootReducer = (state: IState = initalState, action: any) => {
       return {
         ...state,
         isLoading: false,
-        summoner: { ...state.summoner, sumName: action.payload, sumLevel: '', sumIcon: '', splash: '' }
+        summoner: { ...state.summoner, sumName: action.payload, sumLevel: 0, sumIcon: '', sumSplash: '', sumId: '' }
       };
 
     case summonerActions.SET_CHAMPION_DATA:

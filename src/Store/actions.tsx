@@ -2,7 +2,7 @@ import { Dispatch } from 'redux';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
 import { key } from '../tempdevconf';
-import { ISummoner, SummonerDTO } from '../Interfaces/summoner-interface';
+import { Summoner, SummonerDTO, LeagueEntryDTO, League } from '../Interfaces/summoner-interface';
 
 export const GET_SUM_NAME = 'GET_SUM_NAME';
 export const GET_SUM_REGION = 'GET_SUM_REGION';
@@ -49,39 +49,71 @@ export const getSumInfoAction = () => {
     dispatch(loadingSumInfoAction());
     const sumName: string = getState().summoner.sumName;
     const sumRegion: string = getState().summoner.sumRegion;
+    const sumLeague: Array<League> = getState().summoner.sumLeague;
+
     axios.get(`https://${sumRegion}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${sumName}?api_key=${key}`).then(
       (res: AxiosResponse) => {
         const summonerDTO: SummonerDTO = res.data;
-        const sumInfo: ISummoner = {
+        const sumInfo: Summoner = {
           sumName: summonerDTO.name,
           sumLevel: summonerDTO.summonerLevel,
           sumIcon: `http://ddragon.leagueoflegends.com/cdn/9.24.2/img/profileicon/${res.data.profileIconId}.png`,
           sumId: summonerDTO.id,
           sumRegion: sumRegion,
-          splash: ''
+          sumSplash: '',
+          sumLeague: sumLeague
         };
-        dispatch(getSummonerMasteryAction(sumInfo));
+        dispatch(getSummonerLeagueAction(sumInfo));
       },
       (err: AxiosError) => {
-        console.error('Error on api call', err);
+        console.error('[API Call] Error on get Summoner api call:', err);
         dispatch(errorSumInfoAction('Summoner not found.'));
       }
     );
   };
 };
 
-// TODO: Fix the way champId / champObject are assigned + add type to champObject
+// Action used to get summoner rank info
+export const getSummonerLeagueAction = (sumInfo: Summoner) => {
+  return (dispatch: Dispatch<any>) => {
+    axios
+      .get(`https://${sumInfo.sumRegion}.api.riotgames.com/lol/league/v4/entries/by-summoner/${sumInfo.sumId}?api_key=${key}`)
+      .then((res: AxiosResponse) => {
+        const leagueDTO: Array<LeagueEntryDTO> = res.data;
+        sumInfo.sumLeague = [];
+        if (leagueDTO.length > 0) {
+          leagueDTO.forEach(league => {
+            const sumLeague: League = {
+              queueType: league.queueType,
+              wins: league.wins,
+              losses: league.losses,
+              tier: league.tier,
+              rank: league.rank
+            };
+            sumInfo.sumLeague.push(sumLeague);
+          });
+        }
+        dispatch(getSummonerMasteryAction(sumInfo));
+      });
+  };
+};
+
+// TODO: Fix the way champId / champObject are assigned + add TYPES
 // Action used to get summoner masteries & best champion splash
-export const getSummonerMasteryAction = (sumInfo: ISummoner) => {
+export const getSummonerMasteryAction = (sumInfo: Summoner) => {
   return (dispatch: Dispatch<any>, getState: Function) => {
     axios
-      .get(`https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${sumInfo.sumId}?api_key=${key}`)
+      .get(
+        `https://${sumInfo.sumRegion}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${sumInfo.sumId}?api_key=${key}`
+      )
       .then((res: AxiosResponse) => {
-        if (res.data.length > 0) {
+        const sumMastery: Array<Object> = res.data;
+        if (sumMastery.length > 0) {
           const champId: string = res.data[0].championId.toString();
           const champObject: any = getState().champions.filter((champion: any) => champion.key === champId)[0];
-          const splash: string = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champObject.name}_0.jpg`;
-          sumInfo.splash = splash;
+          const champName: string = champObject.name.replace(/[^a-zA-Z]/g, '');
+          const champSplash: string = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_0.jpg`;
+          sumInfo.sumSplash = champSplash;
           dispatch(successSumInfoAction(sumInfo));
         } else {
           dispatch(successSumInfoAction(sumInfo));

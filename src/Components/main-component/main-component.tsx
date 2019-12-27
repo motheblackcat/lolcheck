@@ -1,27 +1,40 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { IState } from '../../Interfaces/summoner-interface';
+import { IState, League } from '../../Interfaces/summoner-interface';
 import classes from './main-component.module.scss';
+import { cpus } from 'os';
 
 interface State {
   sumName: string;
   sumIcon: string;
   sumLevel: number;
   sumRegion: string;
-  splash: string;
+  sumSplash: string;
+  sumLeague: Array<League>;
   isLoading: boolean;
 }
 
 class MainComponent extends React.Component<State> {
   render() {
-    const backgroundImage = { backgroundImage: `url('${this.props.splash}')` };
+    const sumSplashStyle = { backgroundImage: `url('${this.props.sumSplash}')` };
+    const sumIconImg = this.props.sumIcon ? <img src={this.props.sumIcon} alt="Summoner Icon" /> : null;
+    const sumLevelLabel = this.props.sumLevel ? <div>Level {this.props.sumLevel}</div> : null;
+
     return this.props.isLoading ? (
       <h1>LOADING...</h1>
     ) : this.props.sumName.match(/\S+/) ? (
-      <div className={classes.main} style={backgroundImage}>
-        {this.props.sumIcon ? <img src={this.props.sumIcon} alt="Summoner Icon" /> : null}
-        <label>{this.props.sumName}</label>
-        {this.props.sumLevel ? <label>Level {this.props.sumLevel}</label> : null}
+      <div className={classes.main} style={sumSplashStyle}>
+        <div>{sumIconImg}</div>
+        <div>{this.props.sumName}</div>
+        {sumLevelLabel}
+        {this.props.sumLeague.map(league => {
+          return (
+            <div>
+              {league.queueType === 'RANKED_FLEX_SR' ? 'Flex Queue' : 'Solo / Duo Queue'} {league.tier} {league.rank} {league.wins}W /{' '}
+              {league.losses}L
+            </div>
+          );
+        })}
       </div>
     ) : null;
   }
@@ -33,7 +46,8 @@ const mapStateToProps = (state: IState) => {
     sumIcon: state.summoner.sumIcon,
     sumLevel: state.summoner.sumLevel,
     sumRegion: state.summoner.sumRegion,
-    splash: state.summoner.splash,
+    sumSplash: state.summoner.sumSplash,
+    sumLeague: state.summoner.sumLeague,
     isLoading: state.isLoading
   };
 };
