@@ -19,6 +19,14 @@ class MainComponent extends React.Component<State> {
     const sumSplashStyle = { backgroundImage: `url('${this.props.sumSplash}')` };
     const sumIconImg = this.props.sumIcon ? <img src={this.props.sumIcon} alt="Summoner Icon" /> : null;
     const sumLevelLabel = this.props.sumLevel ? <div>Level {this.props.sumLevel}</div> : null;
+    const sumLeague = this.props.sumLeague.map(league => {
+      const queueType = league.queueType === 'RANKED_FLEX_SR' ? 'Flex Queue' : 'Solo / Duo Queue';
+      return (
+        <div>
+          {queueType} {league.tier} {league.rank} {league.wins}W / {league.losses}L
+        </div>
+      );
+    });
 
     return this.props.isLoading ? (
       <h1>LOADING...</h1>
@@ -27,14 +35,7 @@ class MainComponent extends React.Component<State> {
         <div>{sumIconImg}</div>
         <div>{this.props.sumName}</div>
         {sumLevelLabel}
-        {this.props.sumLeague.map(league => {
-          return (
-            <div>
-              {league.queueType === 'RANKED_FLEX_SR' ? 'Flex Queue' : 'Solo / Duo Queue'} {league.tier} {league.rank} {league.wins}W /{' '}
-              {league.losses}L
-            </div>
-          );
-        })}
+        {sumLeague}
       </div>
     ) : null;
   }
