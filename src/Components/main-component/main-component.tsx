@@ -29,7 +29,13 @@ class MainComponent extends React.Component<State> {
     });
 
     return this.props.isLoading ? (
-      <h1>LOADING...</h1>
+      <div className={classes.loader}>
+        <div>
+          <div>
+            <div></div>
+          </div>
+        </div>
+      </div>
     ) : this.props.sumName.match(/\S+/) ? (
       <div className={classes.main} style={sumSplashStyle}>
         <div>{sumIconImg}</div>
