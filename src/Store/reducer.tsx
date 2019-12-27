@@ -45,7 +45,7 @@ const rootReducer = (state: IState = initalState, action: any) => {
       return {
         ...state,
         isLoading: false,
-        summoner: { ...state.summoner, sumName: action.payload, sumLevel: 0, sumIcon: '', sumSplash: '', sumId: '' }
+        summoner: { ...state.summoner, sumName: action.payload, sumLevel: 0, sumIcon: '', sumSplash: '', sumId: '', sumLeague: [] }
       };
 
     case summonerActions.SET_CHAMPION_DATA:
