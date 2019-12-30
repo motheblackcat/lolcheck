@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { IState, League } from '../../Interfaces/summoner-interface';
 import classes from './main-component.module.scss';
-import { cpus } from 'os';
 
 interface State {
   sumName: string;

@@ -37,7 +37,13 @@ class SelectorComponent extends React.Component<State> {
     return (
       <div className={classes.selector}>
         <label htmlFor="sumname">Summoner Name:</label>
-        <input type="text" name="sumname" id="sumname" onChange={e => this.getSummonerNameHandler(e)} />
+        <input
+          type="text"
+          name="sumname"
+          id="sumname"
+          onChange={e => this.getSummonerNameHandler(e)}
+          onKeyDown={e => (e.keyCode === 13 ? this.getSummonerInfoHandler() : null)}
+        />
 
         <label htmlFor="sumregion">Server:</label>
         <select name="sumregion" id="sumregion" onChange={e => this.getSummonerRegionHandler(e)}>
