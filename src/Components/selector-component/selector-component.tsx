@@ -42,7 +42,7 @@ class SelectorComponent extends React.Component<State> {
           name="sumname"
           id="sumname"
           onChange={e => this.getSummonerNameHandler(e)}
-          onKeyDown={e => (e.keyCode === 13 ? this.getSummonerInfoHandler() : null)}
+          onKeyDown={e => (e.keyCode === 13 && !this.props.isLoading ? this.getSummonerInfoHandler() : null)}
         />
 
         <button disabled={this.props.isLoading} onClick={() => this.getSummonerInfoHandler()}>

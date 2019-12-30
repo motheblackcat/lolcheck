@@ -1,58 +1,32 @@
 .main {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position-y: 15%;
-  padding: 25px 50px;
-  height: 600px;
-  font-size: 2em;
-
-  img {
-    width: 200px;
-    border: 2px solid white;
-  }
-}
-
-.loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 600px;
-
-  div {
+  .banner {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #282c34;
-    width: 100px;
-    height: 100px;
-    border-radius: 100%;
+    background-position-y: 25%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 10px 0;
+    font-size: 2.5em;
 
-    div {
-      display: initial;
-      background-color: #121418;
-      width: 80px;
-      height: 80px;
-      border-radius: 100%;
-      animation: rotate 0.5s linear infinite;
-
-      div {
-        display: block;
-        background-color: white;
-        width: 15px;
-        height: 15px;
-        border-radius: 100%;
-        animation: none;
-      }
+    img {
+      padding: 0 20px;
+      width: 150px;
     }
   }
-}
 
-@keyframes rotate {
-  from {
-    transform: rotate(0);
-  }
+  .content {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 30px;
+    font-size: 2em;
 
-  to {
-    transform: rotate(360deg);
+    .league {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    img {
+      width: 250px;
+    }
   }
 }
