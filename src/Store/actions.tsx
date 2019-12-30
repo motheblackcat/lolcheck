@@ -3,6 +3,7 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 
 import { key } from '../tempdevconf';
 import { Summoner, SummonerDTO, LeagueEntryDTO, League } from '../Interfaces/summoner-interface';
+import { LEAGUE } from '../Interfaces/game-const';
 
 export const GET_SUM_NAME = 'GET_SUM_NAME';
 export const GET_SUM_REGION = 'GET_SUM_REGION';
@@ -26,6 +27,7 @@ export const getSumRegionAction = (payload: string) => {
   };
 };
 
+// TODO: Get the ddragon version and language dynamicaly
 export const getChampionDataAction = () => {
   return (dispatch: Dispatch<any>) => {
     axios.get('http://ddragon.leagueoflegends.com/cdn/9.24.2/data/en_US/champion.json').then((res: AxiosResponse) => {
@@ -42,8 +44,8 @@ export const setChampionDataAction = (payload: any) => {
   };
 };
 
-// TODO: Improve error handling with different messages according to code
-// Action used to trigger the Riot API call
+// TODO: Improve error handling with different messages according to the error code
+// Action used to trigger the Riot API call chain (summoner info > league info > fav champion)
 export const getSumInfoAction = () => {
   return (dispatch: Dispatch<any>, getState: Function) => {
     dispatch(loadingSumInfoAction());
@@ -83,14 +85,16 @@ export const getSummonerLeagueAction = (sumInfo: Summoner) => {
         sumInfo.sumLeague = [];
         if (leagueDTO.length > 0) {
           leagueDTO.forEach(league => {
-            const sumLeague: League = {
-              queueType: league.queueType,
-              wins: league.wins,
-              losses: league.losses,
-              tier: league.tier,
-              rank: league.rank
-            };
-            sumInfo.sumLeague.push(sumLeague);
+            if (league.queueType !== LEAGUE.RANKED_FLEX_TT) {
+              const sumLeague: League = {
+                queueType: league.queueType,
+                wins: league.wins,
+                losses: league.losses,
+                tier: league.tier,
+                rank: league.rank
+              };
+              sumInfo.sumLeague.push(sumLeague);
+            }
           });
         }
         dispatch(getSummonerMasteryAction(sumInfo));
