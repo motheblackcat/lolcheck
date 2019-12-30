@@ -13,7 +13,10 @@ const initalState: IState = {
   },
   champions: [],
   isLoading: false,
-  error: false
+  error: {
+    isError: false,
+    message: ''
+  }
 };
 
 const rootReducer = (state: IState = initalState, action: any) => {
@@ -31,7 +34,7 @@ const rootReducer = (state: IState = initalState, action: any) => {
       return {
         ...state,
         isLoading: false,
-        error: false,
+        error: { ...state.error, isError: false, message: '' },
         summoner: {
           ...state.summoner,
           sumName: action.payload.sumName,
@@ -47,8 +50,7 @@ const rootReducer = (state: IState = initalState, action: any) => {
       return {
         ...state,
         isLoading: false,
-        error: true,
-        summoner: { ...state.summoner, sumName: action.payload, sumLevel: 0, sumIcon: '', sumSplash: '', sumId: '', sumLeague: [] }
+        error: { ...state.error, isError: true, message: action.payload }
       };
 
     case summonerActions.SET_CHAMPION_DATA:

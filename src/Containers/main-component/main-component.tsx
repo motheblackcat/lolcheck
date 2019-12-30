@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { LoaderComponent } from '../../Components/loader-component/loader-component';
 import { LeagueComponent } from '../../Components/league-component/league-component';
 
-import { IState, League } from '../../Interfaces/summoner-interface';
+import { IState, League, Error } from '../../Interfaces/summoner-interface';
 import { LEAGUE } from '../../Interfaces/game-const';
 import classes from './main-component.module.scss';
 
@@ -16,7 +16,7 @@ interface State {
   sumSplash: string;
   sumLeague: Array<League>;
   isLoading: boolean;
-  error: boolean;
+  error: Error;
 }
 
 class MainComponent extends React.Component<State> {
@@ -27,7 +27,7 @@ class MainComponent extends React.Component<State> {
     const flexRank = this.props.sumLeague.find((league: League) => league.queueType === LEAGUE.RANKED_FLEX_SR);
 
     if (this.props.isLoading) return <LoaderComponent />;
-    if (this.props.error) return <div className={classes.error}>Summoner not found!</div>;
+    if (this.props.error.isError) return <div className={classes.error}>{this.props.error.message}</div>;
     if (this.props.sumName) {
       return (
         <div className={classes.main}>

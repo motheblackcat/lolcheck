@@ -2,7 +2,12 @@ export interface IState {
   summoner: Summoner;
   champions: Array<Object>;
   isLoading: boolean;
-  error: boolean;
+  error: Error;
+}
+
+export interface Error {
+  isError: boolean;
+  message: string;
 }
 
 export interface Summoner {

@@ -44,7 +44,6 @@ export const setChampionDataAction = (payload: any) => {
   };
 };
 
-// TODO: Improve error handling with messages according to the error code
 // Action used to trigger the Riot API call chain (summoner info > league info > fav champion)
 export const getSumInfoAction = () => {
   return (dispatch: Dispatch<any>, getState: Function) => {
@@ -68,8 +67,14 @@ export const getSumInfoAction = () => {
         dispatch(getSummonerLeagueAction(sumInfo));
       },
       (err: AxiosError) => {
-        console.error('[API Call] Error on get Summoner api call:', err);
-        dispatch(errorSumInfoAction('Summoner not found.'));
+        console.error('[API Call] Error on get Summoner api call:', err.response?.status);
+
+        switch (err.response?.status) {
+          case 404:
+            return dispatch(errorSumInfoAction('Summoner not found.'));
+          default:
+            return dispatch(errorSumInfoAction('Unknown error.'));
+        }
       }
     );
   };
