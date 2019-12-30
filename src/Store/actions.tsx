@@ -2,7 +2,7 @@ import { Dispatch } from 'redux';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
 import { key } from '../tempdevconf';
-import { Summoner, SummonerDTO, LeagueEntryDTO, League } from '../Interfaces/summoner-interface';
+import { Summoner, SummonerDTO, LeagueEntryDTO, League, Champion, ChampionMasteryDTO } from '../Interfaces/summoner-interface';
 import { LEAGUE } from '../Interfaces/game-const';
 
 export const GET_SUM_NAME = 'GET_SUM_NAME';
@@ -102,7 +102,6 @@ export const getSummonerLeagueAction = (sumInfo: Summoner) => {
   };
 };
 
-// TODO: Fix the way champId / champObject are assigned + add TYPES
 // Action used to get summoner masteries & best champion splash
 export const getSummonerMasteryAction = (sumInfo: Summoner) => {
   return (dispatch: Dispatch<any>, getState: Function) => {
@@ -111,11 +110,11 @@ export const getSummonerMasteryAction = (sumInfo: Summoner) => {
         `https://${sumInfo.sumRegion}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${sumInfo.sumId}?api_key=${key}`
       )
       .then((res: AxiosResponse) => {
-        const sumMastery: Array<Object> = res.data;
-        if (sumMastery.length > 0) {
-          const champId: string = res.data[0].championId.toString();
-          const champObject: any = getState().champions.filter((champion: any) => champion.key === champId)[0];
-          const champName: string = champObject.name.replace(/[^a-zA-Z]/g, '');
+        const sumMastery: ChampionMasteryDTO = res.data.shift();
+        if (sumMastery) {
+          const sumMasteryChampId: string = sumMastery.championId.toString();
+          const champ: Champion = getState().champions.find((champion: Champion) => champion.key === sumMasteryChampId);
+          const champName: string = champ.name.replace(/[^a-zA-Z]/g, '');
           const champSplash: string = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_0.jpg`;
           sumInfo.sumSplash = champSplash;
           dispatch(successSumInfoAction(sumInfo));

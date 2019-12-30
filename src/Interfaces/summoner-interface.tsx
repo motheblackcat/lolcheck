@@ -48,3 +48,23 @@ export interface LeagueEntryDTO {
   summonerId: string;
   leaguePoints: number;
 }
+
+export interface ChampionMasteryDTO {
+  championId: number;
+  championLevel: number;
+  championPoints: number;
+  championPointsSinceLastLevel: number;
+  championPointsUntilNextLevel: number;
+  chestGranted: boolean;
+  lastPlayTime: number;
+  summonerId: string;
+  tokensEarned: number;
+}
+
+export interface Champion {
+  id: string;
+  key: string;
+  name: string;
+  title: string;
+  tags: Array<string>;
+}
