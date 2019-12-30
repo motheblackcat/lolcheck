@@ -91,7 +91,8 @@ export const getSummonerLeagueAction = (sumInfo: Summoner) => {
                 wins: league.wins,
                 losses: league.losses,
                 tier: league.tier,
-                rank: league.rank
+                rank: league.rank,
+                leaguePoints: league.leaguePoints
               };
               sumInfo.sumLeague.push(sumLeague);
             }

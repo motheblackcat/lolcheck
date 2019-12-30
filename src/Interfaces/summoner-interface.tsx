@@ -31,6 +31,7 @@ export interface League {
   losses: number;
   tier: string;
   rank: string;
+  leaguePoints: number;
 }
 
 export interface LeagueEntryDTO {

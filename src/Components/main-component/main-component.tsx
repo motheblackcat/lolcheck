@@ -20,15 +20,15 @@ class MainComponent extends React.Component<State> {
     const sumIconImg = this.props.sumIcon ? <img src={this.props.sumIcon} alt="Summoner Icon" /> : null;
     const sumLevelLabel = this.props.sumLevel ? <div>Level {this.props.sumLevel}</div> : null;
     const sumLeague = this.props.sumLeague.map(league => {
-      // TODO: Put text in translation file
       const queueType = league.queueType === LEAGUE.RANKED_SOLO_5x5 ? 'Solo / Duo Queue' : 'Flex Queue';
       return (
         <div key={league.queueType}>
-          {queueType} {league.tier} {league.rank} {league.wins}W / {league.losses}L
+          {queueType} {league.tier} {league.rank} {league.leaguePoints} LP {league.wins}W / {league.losses}L
         </div>
       );
     });
 
+    // TODO: Use translation file + refactor display logic (no dom if no data)
     return this.props.isLoading ? (
       <div className={classes.loader}>
         <div>
