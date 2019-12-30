@@ -1,32 +1,30 @@
 .main {
+  font-size: 2em;
   .banner {
     display: flex;
     background-position-y: 25%;
     background-repeat: no-repeat;
     background-size: cover;
     padding: 10px 0;
-    font-size: 2.5em;
 
     img {
       padding: 0 20px;
-      width: 150px;
     }
+  }
+
+  img {
+    width: 200px;
   }
 
   .content {
     display: flex;
     justify-content: space-evenly;
     margin-top: 30px;
-    font-size: 2em;
-
-    .league {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    img {
-      width: 250px;
-    }
   }
+}
+
+.error {
+  font-size: 2em;
+  color: red;
+  margin: 50px;
 }

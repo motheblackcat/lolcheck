@@ -44,7 +44,7 @@ export const setChampionDataAction = (payload: any) => {
   };
 };
 
-// TODO: Improve error handling with different messages according to the error code
+// TODO: Improve error handling with messages according to the error code
 // Action used to trigger the Riot API call chain (summoner info > league info > fav champion)
 export const getSumInfoAction = () => {
   return (dispatch: Dispatch<any>, getState: Function) => {

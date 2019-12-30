@@ -1,8 +1,8 @@
-// TODO: Type champions correctly
 export interface IState {
   summoner: Summoner;
   champions: Array<Object>;
   isLoading: boolean;
+  error: boolean;
 }
 
 export interface Summoner {

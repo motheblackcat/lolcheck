@@ -3,7 +3,7 @@ import { store } from '.';
 import { getChampionDataAction } from './Store/actions';
 
 import SelectorComponent from './Components/selector-component/selector-component';
-import MainComponent from './Components/main-component/main-component';
+import MainComponent from './Containers/main-component/main-component';
 
 import './App.scss';
 
