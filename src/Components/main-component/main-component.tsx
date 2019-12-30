@@ -19,9 +19,10 @@ class MainComponent extends React.Component<State> {
     const sumIconImg = this.props.sumIcon ? <img src={this.props.sumIcon} alt="Summoner Icon" /> : null;
     const sumLevelLabel = this.props.sumLevel ? <div>Level {this.props.sumLevel}</div> : null;
     const sumLeague = this.props.sumLeague.map(league => {
+      // TODO: Put everything needed in a const / translation file
       const queueType = league.queueType === 'RANKED_FLEX_SR' ? 'Flex Queue' : 'Solo / Duo Queue';
       return (
-        <div>
+        <div key={league.queueType}>
           {queueType} {league.tier} {league.rank} {league.wins}W / {league.losses}L
         </div>
       );
