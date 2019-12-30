@@ -45,15 +45,15 @@ class SelectorComponent extends React.Component<State> {
           onKeyDown={e => (e.keyCode === 13 ? this.getSummonerInfoHandler() : null)}
         />
 
+        <button disabled={this.props.isLoading} onClick={() => this.getSummonerInfoHandler()}>
+          {this.props.isLoading ? 'Loading...' : 'Check'}
+        </button>
+
         <label htmlFor="sumregion">Server:</label>
         <select name="sumregion" id="sumregion" onChange={e => this.getSummonerRegionHandler(e)}>
           <option value="euw1">EUW</option>
           <option value="na1">NA</option>
         </select>
-
-        <button disabled={this.props.isLoading} onClick={() => this.getSummonerInfoHandler()}>
-          {this.props.isLoading ? 'Loading...' : 'Check'}
-        </button>
       </div>
     );
   }

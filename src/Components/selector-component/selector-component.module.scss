@@ -1,12 +1,16 @@
 .selector {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 20px 50px;
 
   label,
   input {
     font-size: 1.5em;
+  }
+
+  label,
+  button {
+    margin-right: 20px;
   }
 
   input,
@@ -21,12 +25,22 @@
   input {
     width: 350px;
     padding-left: 10px;
+    border-right: 0;
   }
 
   button {
     text-transform: uppercase;
     font-weight: bold;
-    width: 150px;
+    font-size: 1em;
+    padding: 1px 10px 1px 10px;
+    box-sizing: content-box;
+    border-left: 0;
+    cursor: pointer;
+
+    &:hover {
+      background-color: white;
+      color: #282c34;
+    }
   }
 
   select {
