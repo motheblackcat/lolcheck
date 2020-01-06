@@ -30,7 +30,7 @@ export const getSumRegionAction = (payload: string) => {
 // TODO: Get the ddragon version and language dynamicaly
 export const getChampionDataAction = () => {
   return (dispatch: Dispatch<any>) => {
-    axios.get('http://ddragon.leagueoflegends.com/cdn/9.24.2/data/en_US/champion.json').then((res: AxiosResponse) => {
+    axios.get('https://ddragon.leagueoflegends.com/cdn/9.24.2/data/en_US/champion.json').then((res: AxiosResponse) => {
       const championData: Array<Object> = Object.values(res.data.data);
       dispatch(setChampionDataAction(championData));
     });
@@ -58,7 +58,7 @@ export const getSumInfoAction = () => {
         const sumInfo: Summoner = {
           sumName: summonerDTO.name,
           sumLevel: summonerDTO.summonerLevel,
-          sumIcon: `http://ddragon.leagueoflegends.com/cdn/9.24.2/img/profileicon/${res.data.profileIconId}.png`,
+          sumIcon: `https://ddragon.leagueoflegends.com/cdn/9.24.2/img/profileicon/${res.data.profileIconId}.png`,
           sumId: summonerDTO.id,
           sumRegion: sumRegion,
           sumSplash: '',
@@ -122,7 +122,7 @@ export const getSummonerMasteryAction = (sumInfo: Summoner) => {
           const sumMasteryChampId: string = sumMastery.championId.toString();
           const champ: Champion = getState().champions.find((champion: Champion) => champion.key === sumMasteryChampId);
           const champName: string = champ.name.replace(/[^a-zA-Z]/g, '');
-          const champSplash: string = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_0.jpg`;
+          const champSplash: string = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_0.jpg`;
           sumInfo.sumSplash = champSplash;
           sumInfo.sumChamp = champ.name;
           dispatch(successSumInfoAction(sumInfo));
