@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/lolcheck/static/css/main.1b91fc82.chunk.css",
-    "main.js": "/lolcheck/static/js/main.75cb75d4.chunk.js",
-    "main.js.map": "/lolcheck/static/js/main.75cb75d4.chunk.js.map",
+    "main.js": "/lolcheck/static/js/main.d6505a20.chunk.js",
+    "main.js.map": "/lolcheck/static/js/main.d6505a20.chunk.js.map",
     "runtime-main.js": "/lolcheck/static/js/runtime-main.eaa60b38.js",
     "runtime-main.js.map": "/lolcheck/static/js/runtime-main.eaa60b38.js.map",
     "static/js/2.ae4814c6.chunk.js": "/lolcheck/static/js/2.ae4814c6.chunk.js",
     "static/js/2.ae4814c6.chunk.js.map": "/lolcheck/static/js/2.ae4814c6.chunk.js.map",
     "index.html": "/lolcheck/index.html",
-    "precache-manifest.bdceb2c2e525e1daa3365c8b247b9821.js": "/lolcheck/precache-manifest.bdceb2c2e525e1daa3365c8b247b9821.js",
+    "precache-manifest.e402ed90729b1a9abd571e5820137fa1.js": "/lolcheck/precache-manifest.e402ed90729b1a9abd571e5820137fa1.js",
     "service-worker.js": "/lolcheck/service-worker.js",
     "static/css/main.1b91fc82.chunk.css.map": "/lolcheck/static/css/main.1b91fc82.chunk.css.map",
     "static/js/2.ae4814c6.chunk.js.LICENSE": "/lolcheck/static/js/2.ae4814c6.chunk.js.LICENSE",
@@ -27,6 +27,6 @@
     "static/js/runtime-main.eaa60b38.js",
     "static/js/2.ae4814c6.chunk.js",
     "static/css/main.1b91fc82.chunk.css",
-    "static/js/main.75cb75d4.chunk.js"
+    "static/js/main.d6505a20.chunk.js"
   ]
 }
