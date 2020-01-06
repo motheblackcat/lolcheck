@@ -62,6 +62,7 @@ export const getSumInfoAction = () => {
           sumId: summonerDTO.id,
           sumRegion: sumRegion,
           sumSplash: '',
+          sumChamp: '',
           sumLeague: sumLeague
         };
         dispatch(getSummonerLeagueAction(sumInfo));
@@ -123,6 +124,7 @@ export const getSummonerMasteryAction = (sumInfo: Summoner) => {
           const champName: string = champ.name.replace(/[^a-zA-Z]/g, '');
           const champSplash: string = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_0.jpg`;
           sumInfo.sumSplash = champSplash;
+          sumInfo.sumChamp = champ.name;
           dispatch(successSumInfoAction(sumInfo));
         } else {
           dispatch(successSumInfoAction(sumInfo));

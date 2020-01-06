@@ -9,7 +9,8 @@ const initalState: IState = {
     sumRegion: 'euw1',
     sumId: '',
     sumSplash: '',
-    sumLeague: []
+    sumLeague: [],
+    sumChamp: ''
   },
   champions: [],
   isLoading: false,
@@ -42,6 +43,7 @@ const rootReducer = (state: IState = initalState, action: any) => {
           sumIcon: action.payload.sumIcon,
           sumId: action.payload.sumId,
           sumSplash: action.payload.sumSplash,
+          sumChamp: action.payload.sumChamp,
           sumLeague: action.payload.sumLeague
         }
       };

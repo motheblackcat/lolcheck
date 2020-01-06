@@ -17,6 +17,7 @@ export interface Summoner {
   sumRegion: string;
   sumId: string;
   sumSplash: string;
+  sumChamp: string;
   sumLeague: Array<League>;
 }
 

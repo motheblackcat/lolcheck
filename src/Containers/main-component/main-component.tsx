@@ -15,6 +15,7 @@ interface State {
   sumRegion: string;
   sumSplash: string;
   sumLeague: Array<League>;
+  sumChamp: string;
   isLoading: boolean;
   error: Error;
 }
@@ -34,7 +35,10 @@ class MainComponent extends React.Component<State> {
           <div className={classes.banner} style={sumSplashStyle}>
             <img src={this.props.sumIcon} alt="summoner icon" />
             <div>
-              {this.props.sumName} - Level {this.props.sumLevel}
+              <div>
+                {this.props.sumName} - Level {this.props.sumLevel}
+              </div>
+              {this.props.sumChamp ? <div>{this.props.sumChamp}</div> : null}
             </div>
           </div>
           <div className={classes.content}>
@@ -54,6 +58,7 @@ const mapStateToProps = (state: IState) => {
     sumLevel: state.summoner.sumLevel,
     sumRegion: state.summoner.sumRegion,
     sumSplash: state.summoner.sumSplash,
+    sumChamp: state.summoner.sumChamp,
     sumLeague: state.summoner.sumLeague,
     isLoading: state.isLoading,
     error: state.error
