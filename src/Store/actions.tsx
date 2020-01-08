@@ -1,7 +1,6 @@
 import { Dispatch } from 'redux';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
-import { key } from '../tempdevconf';
 import { Summoner, SummonerDTO, LeagueEntryDTO, League, Champion, ChampionMasteryDTO } from '../Interfaces/summoner-interface';
 import { LEAGUE } from '../Interfaces/game-const';
 
@@ -12,10 +11,6 @@ export const LOADING_SUM_INFO = 'LOADING_SUM_INFO';
 export const SUCCESS_SUM_INFO = 'SUCCESS_SUM_INFO';
 export const ERROR_SUM_INFO = 'ERROR_SUM_INFO';
 export const SET_CHAMPION_DATA = 'SET_CHAMPION_DATA';
-
-const config = {
-  params: { api_key: key }
-};
 
 export const getSumNameAction = (payload: string) => {
   return {
@@ -56,13 +51,13 @@ export const getSumInfoAction = () => {
     const sumRegion: string = getState().summoner.sumRegion;
     const sumLeague: Array<League> = getState().summoner.sumLeague;
 
-    axios.get(`https://${sumRegion}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${sumName}`, config).then(
+    axios.get(`/api/summoner?region=${sumRegion}&name=${sumName}`).then(
       (res: AxiosResponse) => {
         const summonerDTO: SummonerDTO = res.data;
         const sumInfo: Summoner = {
           sumName: summonerDTO.name,
           sumLevel: summonerDTO.summonerLevel,
-          sumIcon: `https://ddragon.leagueoflegends.com/cdn/9.24.2/img/profileicon/${res.data.profileIconId}.png`,
+          sumIcon: `https://ddragon.leagueoflegends.com/cdn/10.1.1/img/profileicon/${res.data.profileIconId}.png`,
           sumId: summonerDTO.id,
           sumRegion: sumRegion,
           sumSplash: '',
@@ -89,7 +84,7 @@ export const getSumInfoAction = () => {
 export const getSummonerLeagueAction = (sumInfo: Summoner) => {
   return (dispatch: Dispatch<any>) => {
     axios
-      .get(`https://${sumInfo.sumRegion}.api.riotgames.com/lol/league/v4/entries/by-summoner/${sumInfo.sumId}`, config)
+      .get(`/api/league?region=${sumInfo.sumRegion}&id=${sumInfo.sumId}`)
       .then((res: AxiosResponse) => {
         const leagueDTO: Array<LeagueEntryDTO> = res.data;
         sumInfo.sumLeague = [];
@@ -117,7 +112,7 @@ export const getSummonerLeagueAction = (sumInfo: Summoner) => {
 export const getSummonerMasteryAction = (sumInfo: Summoner) => {
   return (dispatch: Dispatch<any>, getState: Function) => {
     axios
-      .get(`https://${sumInfo.sumRegion}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${sumInfo.sumId}`, config)
+      .get(`api/summonermasteries?region=${sumInfo.sumRegion}&id=${sumInfo.sumId}`)
       .then((res: AxiosResponse) => {
         const sumMastery: ChampionMasteryDTO = res.data.shift();
         if (sumMastery) {
