@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
-const key = 'RGAPI-5fec8cb3-bb79-44b7-8c5d-452153ddb8d3';
+const key = 'Exemple key here';
 
 app.get('/api/summoner', (req, res) => {
     axios.get(`https://${req.query.region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${req.query.name}?api_key=${key}`)
